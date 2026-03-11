@@ -128,14 +128,41 @@ export default function AdminPage() {
                 </div>
             </aside>
 
-            {/* Mobile Header (simplified for brevity) */}
-            <div className="md:hidden fixed top-0 left-0 w-full bg-white shadow-sm z-50 p-4 flex justify-between items-center">
-                <h1 className="text-xl font-lovelo uppercase tracking-widest text-dark">NOVENO</h1>
-                <button onClick={handleLogout} className="text-slate-500"><LogOut className="w-5 h-5" /></button>
+            {/* Mobile Header */}
+            <div className="md:hidden fixed top-0 left-0 w-full bg-white shadow-sm z-50 flex flex-col">
+                <div className="px-4 py-3 flex justify-between items-center">
+                    <h1 className="text-xl font-lovelo uppercase tracking-widest text-dark">NOVENO</h1>
+                    <button onClick={handleLogout} className="text-slate-500"><LogOut className="w-5 h-5" /></button>
+                </div>
+                {/* Horizontal scrollable tab bar for mobile */}
+                <nav className="overflow-x-auto scrollbar-hide border-t border-slate-100">
+                    <div className="flex min-w-max">
+                        {([
+                            { id: "sectors", label: "Sectores", icon: <LayoutDashboard className="w-4 h-4" /> },
+                            { id: "leads", label: "Cotizaciones", icon: <ClipboardList className="w-4 h-4" /> },
+                            { id: "team", label: "Equipo", icon: <Users className="w-4 h-4" /> },
+                            { id: "collaborators", label: "Colabs", icon: <HeartHandshake className="w-4 h-4" /> },
+                            { id: "footer", label: "Config", icon: <Settings className="w-4 h-4" /> },
+                        ] as { id: Tab; label: string; icon: React.ReactNode }[]).map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`flex items-center gap-1.5 px-4 py-2.5 font-Montserrat text-xs font-semibold uppercase tracking-wider flex-shrink-0 border-b-2 transition-all ${
+                                    activeTab === tab.id
+                                        ? "border-terracotta text-terracotta"
+                                        : "border-transparent text-slate-400 hover:text-slate-600"
+                                }`}
+                            >
+                                {tab.icon}
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                </nav>
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 p-6 md:p-12 overflow-y-auto w-full pt-20 md:pt-12">
+            <div className="flex-1 p-4 sm:p-6 md:p-12 overflow-y-auto w-full pt-28 md:pt-12">
                 <div className="max-w-5xl mx-auto">
 
                     {/* Header based on Tab */}

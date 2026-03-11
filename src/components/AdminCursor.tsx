@@ -45,6 +45,7 @@ export default function AdminCursor() {
     }, [springX, springY]);
 
     return (
+        <div className="hidden md:block">
         <motion.div
             className="fixed top-0 left-0 w-12 h-12 rounded-full border border-terracotta bg-terracotta/5 backdrop-blur-sm pointer-events-none z-[999999] flex items-center justify-center text-terracotta font-lovelo text-xl shadow-sm"
             style={{
@@ -63,5 +64,6 @@ export default function AdminCursor() {
                 {currentLetter}
             </motion.span>
         </motion.div>
+        </div>
     );
 }

@@ -2,10 +2,11 @@
 
 import { Sector } from "@/hooks/useAgencyData";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UniversalFooter from "./UniversalFooter";
 import ClientCarousel from "./ClientCarousel";
 import PortfolioCarousel from "./PortfolioCarousel";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Horizontal Slide Component (Now every slide scroll vertically)
 function HorizontalSlide({
@@ -21,7 +22,7 @@ function HorizontalSlide({
 }) {
     const isInicio = sector.id === "inicio";
 
-    // Parallax Background Setup (Opposite to Mouse X/Y)
+    // Parallax Background Setup (Opposite to Mouse X/Y) — desktop only
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const smoothX = useSpring(mouseX, { stiffness: 100, damping: 30 });
@@ -50,6 +51,7 @@ function HorizontalSlide({
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className={`absolute top-0 left-0 w-[100vw] h-[100vh] will-change-transform flex overflow-hidden ${isActive ? "overflow-y-auto" : "overflow-y-hidden"
                 }`}
+            style={{ touchAction: isActive ? "pan-y" : "none" }}
         >
             {/* Background Parallax Layer */}
             <motion.div
@@ -87,48 +89,48 @@ function InicioVerticalFlow({ sector }: { sector: Sector }) {
     return (
         <div className="w-full flex flex-col items-center">
             {/* 1. Hero */}
-            <section className="w-full h-screen flex flex-col justify-end p-12 lg:p-24 relative snap-start">
+            <section className="w-full h-screen flex flex-col justify-end p-6 sm:p-8 md:p-12 lg:p-24 relative snap-start">
                 {/* Heavy Top Gradient & Lower Scrim for text legibility */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 pointer-events-none -z-1" />
 
-                <h2 className="relative z-10 text-white/45 mix-blend-difference font-lovelo text-6xl md:text-8xl lg:text-9xl tracking-widest uppercase mb-4 leading-none max-w-5xl">
+                <h2 className="relative z-10 text-white/45 mix-blend-difference font-lovelo text-4xl sm:text-6xl md:text-8xl lg:text-9xl tracking-widest uppercase mb-4 leading-none max-w-5xl">
                     {sector.title}
                 </h2>
-                <div className="relative z-10 h-1 w-24 bg-terracotta my-6" />
-                <p className="relative z-10 text-white font-Montserrat text-xl md:text-2xl font-light tracking-wide max-w-2xl drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+                <div className="relative z-10 h-1 w-16 sm:w-24 bg-terracotta my-4 sm:my-6" />
+                <p className="relative z-10 text-white font-Montserrat text-base sm:text-lg md:text-2xl font-light tracking-wide max-w-2xl drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
                     {sector.description}
                 </p>
 
                 {/* Scroll affordance */}
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce opacity-50 flex flex-col items-center">
+                <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 animate-bounce opacity-50 flex flex-col items-center">
                     <span className="text-xs font-Montserrat tracking-[0.3em] uppercase mb-2">Deslizar para explorar</span>
-                    <div className="w-[1px] h-12 bg-white" />
+                    <div className="w-[1px] h-8 sm:h-12 bg-white" />
                 </div>
             </section>
 
             {/* 2. Quienes Somos */}
-            <section className="w-full min-h-[70vh] flex items-center bg-black/80 backdrop-blur-md relative snap-start z-10 p-12 lg:p-24">
+            <section className="w-full min-h-[70vh] flex items-center bg-black/80 backdrop-blur-md relative snap-start z-10 p-6 sm:p-10 md:p-12 lg:p-24">
                 <div className="max-w-4xl">
-                    <h3 className="text-teal font-lovelo text-4xl mb-8 uppercase tracking-widest">Quiénes Somos</h3>
-                    <p className="text-sand/90 font-Montserrat text-2xl lg:text-4xl leading-relaxed font-light">
+                    <h3 className="text-teal font-lovelo text-2xl sm:text-3xl md:text-4xl mb-6 md:mb-8 uppercase tracking-widest">Quiénes Somos</h3>
+                    <p className="text-sand/90 font-Montserrat text-xl sm:text-2xl lg:text-4xl leading-relaxed font-light">
                         {sector.aboutText}
                     </p>
                 </div>
             </section>
 
             {/* 3. Team & Colaboraciones (Split View) */}
-            <section className="w-full min-h-[80vh] bg-sand text-foreground relative snap-start z-10 p-12 lg:p-24 py-32 flex flex-col justify-center">
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 xl:gap-24 max-w-[1600px] mx-auto w-full">
+            <section className="w-full min-h-[80vh] bg-sand text-foreground relative snap-start z-10 p-6 sm:p-10 md:p-12 lg:p-24 py-16 sm:py-24 lg:py-32 flex flex-col justify-center">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-24 max-w-[1600px] mx-auto w-full">
                     {/* Lado Izquierdo: Team Noveno */}
                     <div>
-                        <h3 className="text-terracotta font-lovelo text-4xl mb-12 uppercase tracking-widest text-center xl:text-left">Team Noveno</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <h3 className="text-terracotta font-lovelo text-2xl sm:text-3xl md:text-4xl mb-8 md:mb-12 uppercase tracking-widest text-center xl:text-left">Team Noveno</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                             {sector.teamMembers?.map((member) => (
                                 <div key={member.id} className="group relative overflow-hidden rounded-xl aspect-[4/5] shadow-lg">
                                     <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
-                                    <div className="absolute bottom-0 left-0 p-6 w-full">
-                                        <h4 className="text-white font-lovelo text-2xl drop-shadow-lg">{member.name}</h4>
+                                    <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full">
+                                        <h4 className="text-white font-lovelo text-xl sm:text-2xl drop-shadow-lg">{member.name}</h4>
                                         <p className="text-sand/90 font-Montserrat tracking-widest text-xs uppercase mt-1 drop-shadow-md">{member.role}</p>
                                     </div>
                                 </div>
@@ -138,14 +140,14 @@ function InicioVerticalFlow({ sector }: { sector: Sector }) {
 
                     {/* Lado Derecho: Colaboraciones */}
                     <div>
-                        <h3 className="text-teal font-lovelo text-4xl mb-12 uppercase tracking-widest text-center xl:text-left">Colaboraciones</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <h3 className="text-teal font-lovelo text-2xl sm:text-3xl md:text-4xl mb-8 md:mb-12 uppercase tracking-widest text-center xl:text-left">Colaboraciones</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                             {sector.collaborators?.map((collab) => (
                                 <div key={collab.id} className="group relative overflow-hidden rounded-xl aspect-[4/5] shadow-lg">
                                     <img src={collab.imageUrl} alt={collab.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
-                                    <div className="absolute bottom-0 left-0 p-6 w-full">
-                                        <h4 className="text-white font-lovelo text-2xl drop-shadow-lg">{collab.name}</h4>
+                                    <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full">
+                                        <h4 className="text-white font-lovelo text-xl sm:text-2xl drop-shadow-lg">{collab.name}</h4>
                                         <p className="text-sand/90 font-Montserrat tracking-widest text-xs uppercase mt-1 drop-shadow-md">{collab.role}</p>
                                     </div>
                                 </div>
@@ -165,15 +167,15 @@ function SectorVerticalFlow({ sector }: { sector: Sector }) {
     return (
         <div className="w-full flex flex-col">
             {/* Sector Hero */}
-            <section className="w-full min-h-screen flex flex-col justify-end p-12 lg:p-24 relative snap-start">
+            <section className="w-full min-h-screen flex flex-col justify-end p-6 sm:p-8 md:p-12 lg:p-24 relative snap-start">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 pointer-events-none -z-1" />
 
                 <div className="relative z-10 max-w-5xl">
-                    <h2 className="text-white/45 mix-blend-difference font-lovelo text-5xl md:text-7xl lg:text-8xl tracking-wider uppercase mb-4 leading-none">
+                    <h2 className="text-white/45 mix-blend-difference font-lovelo text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-wider uppercase mb-4 leading-none">
                         {sector.title}
                     </h2>
-                    <div className="h-1 w-24 bg-terracotta my-6" />
-                    <p className="text-white font-Montserrat text-xl md:text-3xl font-light tracking-wide drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] max-w-3xl leading-relaxed">
+                    <div className="h-1 w-16 sm:w-24 bg-terracotta my-4 sm:my-6" />
+                    <p className="text-white font-Montserrat text-base sm:text-lg md:text-xl lg:text-3xl font-light tracking-wide drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] max-w-3xl leading-relaxed">
                         {sector.description}
                     </p>
                 </div>
@@ -207,15 +209,16 @@ export default function BidirectionalSlider({
     setActiveIndex: (idx: number) => void;
 }) {
     const [isScrollingX, setIsScrollingX] = useState(false);
+    const touchStartX = useRef<number | null>(null);
+    const touchStartY = useRef<number | null>(null);
 
+    // Desktop: trackpad horizontal scroll
     useEffect(() => {
         const handleWheel = (e: WheelEvent) => {
-            // Horizontal intent detection
             const isHorizontalIntent = Math.abs(e.deltaX) > Math.abs(e.deltaY);
 
             if (typeof window === "undefined" || isScrollingX) return;
 
-            // Swap sector using trackpad explicit horizontal swipe 
             if (isHorizontalIntent) {
                 setIsScrollingX(true);
                 setTimeout(() => setIsScrollingX(false), 800);
@@ -226,18 +229,47 @@ export default function BidirectionalSlider({
                     setActiveIndex(activeIndex - 1);
                 }
             }
-            // If we are exactly at the very top of a given sector (scrollTop 0)
-            // And user scrolls up violently... we could go to the previous sector natively.
-            // But Since ALL sectors are now vertical, Vertical Scroll MUST NOT trigger horizontal swipes anymore
-            // We rely completely on TopNavigation menu clicks or Trackpad side swipes for horizontal changes.
         };
 
         window.addEventListener("wheel", handleWheel, { passive: false });
         return () => window.removeEventListener("wheel", handleWheel);
     }, [activeIndex, isScrollingX, sectors.length, setActiveIndex]);
 
+    // Mobile: touch swipe horizontal to change sector
+    useEffect(() => {
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartX.current = e.touches[0].clientX;
+            touchStartY.current = e.touches[0].clientY;
+        };
+
+        const handleTouchEnd = (e: TouchEvent) => {
+            if (touchStartX.current === null || touchStartY.current === null) return;
+            const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+            const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+
+            // Only trigger horizontal swipe when it's clearly more horizontal than vertical
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 60) {
+                if (deltaX < 0 && activeIndex < sectors.length - 1) {
+                    setActiveIndex(activeIndex + 1);
+                } else if (deltaX > 0 && activeIndex > 0) {
+                    setActiveIndex(activeIndex - 1);
+                }
+            }
+
+            touchStartX.current = null;
+            touchStartY.current = null;
+        };
+
+        window.addEventListener("touchstart", handleTouchStart, { passive: true });
+        window.addEventListener("touchend", handleTouchEnd, { passive: true });
+        return () => {
+            window.removeEventListener("touchstart", handleTouchStart);
+            window.removeEventListener("touchend", handleTouchEnd);
+        };
+    }, [activeIndex, sectors.length, setActiveIndex]);
+
     return (
-        <div className="relative w-full h-screen overflow-hidden bg-black touch-none">
+        <div className="relative w-full h-screen overflow-hidden bg-black touch-pan-y">
             {sectors.map((sector, index) => {
                 return (
                     <HorizontalSlide
@@ -249,6 +281,24 @@ export default function BidirectionalSlider({
                     />
                 );
             })}
+
+            {/* Mobile Arrow Buttons — subtle, only md:hidden */}
+            <button
+                onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
+                disabled={activeIndex === 0}
+                aria-label="Sector anterior"
+                className="md:hidden fixed left-2 top-1/2 -translate-y-1/2 z-40 w-9 h-9 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/70 disabled:opacity-0 transition-opacity duration-300"
+            >
+                <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+                onClick={() => activeIndex < sectors.length - 1 && setActiveIndex(activeIndex + 1)}
+                disabled={activeIndex === sectors.length - 1}
+                aria-label="Sector siguiente"
+                className="md:hidden fixed right-2 top-1/2 -translate-y-1/2 z-40 w-9 h-9 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/70 disabled:opacity-0 transition-opacity duration-300"
+            >
+                <ChevronRight className="w-5 h-5" />
+            </button>
         </div>
     );
 }

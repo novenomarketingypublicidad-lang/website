@@ -16,7 +16,7 @@ export default function ClientCarousel({ clients }: { clients?: ClientLogo[] }) 
             <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
             <motion.div
-                className="flex gap-16 md:gap-32 w-max"
+                className="flex gap-8 md:gap-20 w-max"
                 animate={{
                     x: ["0%", "-33.33%"], // Move exactly one third of the duplicated list to be seamless
                 }}

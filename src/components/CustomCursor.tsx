@@ -24,6 +24,7 @@ export default function CustomCursor({ activeIndex }: { activeIndex: number }) {
     }, [springX, springY]);
 
     return (
+        <div className="hidden md:block">
         <motion.div
             className="fixed top-0 left-0 w-12 h-12 rounded-full border border-sand bg-foreground/10 backdrop-blur-md mix-blend-difference pointer-events-none z-[9999] flex items-center justify-center text-sand font-lovelo text-xl pointer-events-none"
             style={{
@@ -42,5 +43,6 @@ export default function CustomCursor({ activeIndex }: { activeIndex: number }) {
                 {currentLetter}
             </motion.span>
         </motion.div>
+        </div>
     );
 }
