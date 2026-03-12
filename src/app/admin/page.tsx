@@ -391,7 +391,8 @@ function AdminSectorCard({ sector, onSave, onSaveIcon, onSaveClients, onSavePort
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="border border-dark text-dark bg-transparent px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:bg-white transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            style={{ backgroundColor: isSaving ? "#3e667c66" : "#3e667c" }}
+                            className="text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:!bg-[#b5785a] transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
                         >
                             {isSaving ? "Guardando..." : "Guardar Cambios"}
                         </button>
@@ -472,7 +473,8 @@ function ClientsEditor({ clients, onSave }: { clients: ClientLogo[], onSave: (c:
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-dark text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:bg-teal transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: isSaving ? "#3e667c66" : "#3e667c" }}
+                    className="text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:!bg-[#b5785a] transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
                 >
                     {isSaving ? "Guardando..." : "Guardar Logos"}
                 </button>
@@ -546,7 +548,8 @@ function PortfolioEditor({ portfolio, onSave }: { portfolio: PortfolioItem[], on
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-dark text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:bg-teal transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: isSaving ? "#3e667c66" : "#3e667c" }}
+                    className="text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:!bg-[#b5785a] transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
                 >
                     {isSaving ? "Guardando..." : "Guardar Portafolio"}
                 </button>
@@ -627,7 +630,8 @@ function TeamEditor({ members, onSave, title }: { members: TeamMember[], onSave:
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-dark text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:bg-teal transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: isSaving ? "#3e667c66" : "#3e667c" }}
+                    className="text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:!bg-[#b5785a] transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
                 >
                     {isSaving ? "Guardando..." : "Guardar Cambios"}
                 </button>
@@ -699,7 +703,8 @@ function FooterEditor({ config, onSave }: { config: FooterConfig | null, onSave:
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-dark text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:bg-teal transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: isSaving ? "#3e667c66" : "#3e667c" }}
+                    className="text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:!bg-[#b5785a] transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
                 >
                     {isSaving ? "Guardando..." : "Guardar Cambios"}
                 </button>
@@ -782,7 +787,8 @@ function ServicesEditor({ services, onSave }: { services: QuoteService[], onSave
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-dark text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:bg-teal transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: isSaving ? "#3e667c66" : "#3e667c" }}
+                    className="text-white px-6 py-2.5 rounded-xl font-Montserrat font-semibold text-sm hover:!bg-[#b5785a] transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-95"
                 >
                     {isSaving ? "Guardando..." : "Guardar Cambios"}
                 </button>

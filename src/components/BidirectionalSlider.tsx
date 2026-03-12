@@ -2,7 +2,7 @@
 
 import { Sector } from "@/hooks/useAgencyData";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import UniversalFooter from "./UniversalFooter";
 import ClientCarousel from "./ClientCarousel";
 import PortfolioCarousel from "./PortfolioCarousel";
@@ -209,8 +209,6 @@ export default function BidirectionalSlider({
     setActiveIndex: (idx: number) => void;
 }) {
     const [isScrollingX, setIsScrollingX] = useState(false);
-    const touchStartX = useRef<number | null>(null);
-    const touchStartY = useRef<number | null>(null);
 
     // Desktop: trackpad horizontal scroll
     useEffect(() => {
@@ -234,39 +232,6 @@ export default function BidirectionalSlider({
         window.addEventListener("wheel", handleWheel, { passive: false });
         return () => window.removeEventListener("wheel", handleWheel);
     }, [activeIndex, isScrollingX, sectors.length, setActiveIndex]);
-
-    // Mobile: touch swipe horizontal to change sector
-    useEffect(() => {
-        const handleTouchStart = (e: TouchEvent) => {
-            touchStartX.current = e.touches[0].clientX;
-            touchStartY.current = e.touches[0].clientY;
-        };
-
-        const handleTouchEnd = (e: TouchEvent) => {
-            if (touchStartX.current === null || touchStartY.current === null) return;
-            const deltaX = e.changedTouches[0].clientX - touchStartX.current;
-            const deltaY = e.changedTouches[0].clientY - touchStartY.current;
-
-            // Only trigger horizontal swipe when it's clearly more horizontal than vertical
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 60) {
-                if (deltaX < 0 && activeIndex < sectors.length - 1) {
-                    setActiveIndex(activeIndex + 1);
-                } else if (deltaX > 0 && activeIndex > 0) {
-                    setActiveIndex(activeIndex - 1);
-                }
-            }
-
-            touchStartX.current = null;
-            touchStartY.current = null;
-        };
-
-        window.addEventListener("touchstart", handleTouchStart, { passive: true });
-        window.addEventListener("touchend", handleTouchEnd, { passive: true });
-        return () => {
-            window.removeEventListener("touchstart", handleTouchStart);
-            window.removeEventListener("touchend", handleTouchEnd);
-        };
-    }, [activeIndex, sectors.length, setActiveIndex]);
 
     return (
         <div className="relative w-full h-screen overflow-hidden bg-black touch-pan-y">
