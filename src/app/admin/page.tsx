@@ -8,32 +8,52 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea
 import AdminCursor from "@/components/AdminCursor";
 import SaveIndicator, { SaveStatus } from "@/components/SaveIndicator";
 import { ICON_MAP } from "@/components/TopNavigation";
+import { supabase } from "@/lib/supabase";
 
 type Tab = "sectors" | "team" | "collaborators" | "leads" | "footer";
 
 export default function AdminPage() {
     const { sectors, footerConfig, quoteServices, leads, isLoading, error, updateSectorContent, updateSectorIcon, updateSectorsOrder, updateTeamMembers, updateCollaborators, updateClients, updatePortfolio, updateFooter, updateQuoteServices, updateLeadStatus } = useAgencyData();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
+    const [authError, setAuthError] = useState("");
+    const [isSigningIn, setIsSigningIn] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [activeTab, setActiveTab] = useState<Tab>("sectors");
 
-    const handleLogin = (e: React.FormEvent) => {
+    // Listen to Supabase session changes (persist on refresh)
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setIsAuthenticated(!!session);
+            setAuthLoading(false);
+        });
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setIsAuthenticated(!!session);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email === "admin@test.com" && password === "12345678") {
-            setIsAuthenticated(true);
-        } else {
-            alert("Credenciales incorrectas.");
+        setIsSigningIn(true);
+        setAuthError("");
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError) {
+            setAuthError(signInError.message);
         }
+        setIsSigningIn(false);
     };
 
-    const handleLogout = () => {
-        setIsAuthenticated(false);
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
         setEmail("");
         setPassword("");
-    }
+    };
 
-    if (isLoading) {
+    if (authLoading || isLoading) {
         return <div className="w-full h-screen bg-[#FAFAF9] flex items-center justify-center font-lovelo text-terracotta text-3xl tracking-widest animate-pulse">CARGANDO...</div>;
     }
 
@@ -80,11 +100,17 @@ export default function AdminPage() {
                                 required
                             />
                         </div>
+                        {authError && (
+                            <p className="text-xs font-Montserrat text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-center">
+                                {authError}
+                            </p>
+                        )}
                         <button
                             type="submit"
-                            className="border-2 border-dark text-dark bg-transparent py-3 mt-4 rounded-xl font-Montserrat font-semibold hover:bg-white transition-colors flex justify-center items-center gap-2 tracking-wider"
+                            disabled={isSigningIn}
+                            className="border-2 border-dark text-dark bg-transparent py-3 mt-4 rounded-xl font-Montserrat font-semibold hover:bg-white transition-colors flex justify-center items-center gap-2 tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <Lock className="w-4 h-4" /> ACCEDER
+                            <Lock className="w-4 h-4" /> {isSigningIn ? "VERIFICANDO..." : "ACCEDER"}
                         </button>
                     </form>
                     <div className="mt-8 text-center pt-6 border-t border-slate-100">
